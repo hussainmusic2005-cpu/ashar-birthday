@@ -1,638 +1,248 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LEVEL 10 UNLOCKED! Happy Birthday Ashar! 🎮🚀</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Three.js for 3D graphics -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Canvas Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- TikTok Embed Script -->
-    <script async src="https://www.tiktok.com/embed.js"></script>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Fredoka:wght@600;700&display=swap');
-
-        * {
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'Fredoka', sans-serif;
-            background-color: #050515;
-            color: #ffffff;
-            overflow-x: hidden;
-            perspective: 1000px;
-            margin: 0;
-            padding: 0;
-        }
-
-        .font-orbitron {
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        /* 3D Glassmorphism Cards */
-        .glass-card-3d {
-            background: rgba(18, 16, 38, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 2px solid rgba(0, 242, 254, 0.3);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6),
-                        inset 0 0 20px rgba(0, 242, 254, 0.15);
-            transform-style: preserve-3d;
-            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-
-        .glass-card-3d:hover {
-            border-color: rgba(255, 0, 127, 0.6);
-            box-shadow: 0 25px 60px rgba(255, 0, 127, 0.4),
-                        inset 0 0 25px rgba(255, 0, 127, 0.25);
-        }
-
-        /* Neon Glow Texts */
-        .neon-text-cyan {
-            text-shadow: 0 0 10px #00f2fe, 0 0 20px #00f2fe, 0 0 40px #00f2fe;
-        }
-
-        .neon-text-pink {
-            text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 40px #ff007f;
-        }
-
-        .neon-text-gold {
-            text-shadow: 0 0 10px #ffe600, 0 0 20px #ffe600, 0 0 30px #ffe600;
-        }
-
-        /* Animated 3D Button */
-        .btn-3d {
-            background: linear-gradient(135deg, #ff007f 0%, #7928ca 50%, #00f2fe 100%);
-            background-size: 200% 200%;
-            animation: gradientMove 3s ease infinite;
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 30px rgba(255, 0, 127, 0.5),
-                        0 0 20px rgba(0, 242, 254, 0.4);
-            transform: translateZ(30px);
-            transition: all 0.2s ease;
-        }
-
-        .btn-3d:active {
-            transform: translateZ(10px) scale(0.95);
-            box-shadow: 0 5px 15px rgba(255, 0, 127, 0.8);
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Floating 3D Badge */
-        .badge-3d {
-            background: linear-gradient(90deg, #ff0055, #ff5500);
-            box-shadow: 0 0 20px #ff0055;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(-2deg); }
-            50% { transform: translateY(-12px) rotate(2deg); }
-        }
-
-        /* Screen Shake Animation */
-        .shake-screen {
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-        }
-
-        @keyframes shake {
-            10%, 90% { transform: translate3d(-2px, 0, 0); }
-            20%, 80% { transform: translate3d(4px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
-            40%, 60% { transform: translate3d(8px, 0, 0); }
-        }
-
-        /* Canvas for Three.js background */
-        #webgl-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Pulsing Lock Icon */
-        .pulse-lock {
-            animation: lockPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes lockPulse {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px #ff007f); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 35px #00f2fe); }
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #050515;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #00f2fe;
-            border-radius: 10px;
-        }
-    </style>
-</head>
-<body class="min-h-screen text-white relative flex flex-col justify-between">
-
-    <!-- 3D Three.js Canvas Background -->
-    <canvas id="webgl-bg"></canvas>
-
-    <!-- COUNTDOWN / VAULT LOCK SCREEN (Active before 12 October 2026) -->
-    <div id="lock-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-slate-950/90 backdrop-blur-2xl transition-all duration-700">
-        <div class="glass-card-3d max-w-xl w-full p-6 md:p-10 text-center relative overflow-hidden border-2 border-cyan-400">
-            <div class="absolute -top-12 -left-12 w-36 h-36 bg-cyan-500/30 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-12 -right-12 w-36 h-36 bg-pink-500/30 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="pulse-lock text-6xl md:text-7xl mb-4 text-pink-500">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-
-            <h1 class="font-orbitron text-2xl md:text-4xl font-black text-cyan-300 neon-text-cyan tracking-wider mb-2">
-                LEVEL 10 VAULT LOCKED
-            </h1>
-            
-            <p class="text-xs md:text-sm font-orbitron text-slate-300 tracking-widest uppercase mb-6">
-                MISSION UNLOCK DATE: 12 OCTOBER 2026
-            </p>
-
-            <!-- Countdown Display Grid -->
-            <div class="grid grid-cols-4 gap-2 md:gap-4 my-6">
-                <div class="bg-black/50 border border-cyan-500/40 p-3 rounded-xl flex flex-col items-center">
-                    <span id="cd-days" class="font-orbitron text-2xl md:text-4xl font-black text-pink-400">00</span>
-                    <span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase mt-1">Days</span>
-                </div>
-                <div class="bg-black/50 border border-cyan-500/40 p-3 rounded-xl flex flex-col items-center">
-                    <span id="cd-hours" class="font-orbitron text-2xl md:text-4xl font-black text-yellow-300">00</span>
-                    <span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase mt-1">Hours</span>
-                </div>
-                <div class="bg-black/50 border border-cyan-500/40 p-3 rounded-xl flex flex-col items-center">
-                    <span id="cd-minutes" class="font-orbitron text-2xl md:text-4xl font-black text-cyan-300">00</span>
-                    <span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase mt-1">Mins</span>
-                </div>
-                <div class="bg-black/50 border border-cyan-500/40 p-3 rounded-xl flex flex-col items-center">
-                    <span id="cd-seconds" class="font-orbitron text-2xl md:text-4xl font-black text-green-400">00</span>
-                    <span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase mt-1">Secs</span>
-                </div>
-            </div>
-
-            <p class="text-sm md:text-base font-semibold text-slate-300 mb-6">
-                <i class="fa-solid fa-triangle-exclamation text-yellow-400 mr-2"></i>
-                Ashar's Birthday surprise will automatically unlock on 12 October!
-            </p>
-
-            <!-- Bypass Button for Testing -->
-            <button onclick="bypassLock()" class="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/30 rounded-full text-xs font-orbitron font-bold tracking-wider text-cyan-300 transition-all active:scale-95">
-                <i class="fa-solid fa-key text-pink-400 mr-2"></i>BYPASS SECURITY (TEST PREVIEW)
-            </button>
-        </div>
-    </div>
-
-    <!-- Main Celebration Container -->
-    <main id="main-content" class="relative z-10 max-w-4xl mx-auto px-4 py-8 flex flex-col items-center w-full">
-
-        <!-- Mission Badge -->
-        <div class="badge-3d font-orbitron text-xs md:text-sm uppercase tracking-widest px-6 py-2 rounded-full font-extrabold text-white mb-6 border border-white/40">
-            <i class="fa-solid fa-crosshairs mr-2"></i>MISSION: 12 OCTOBER 2026
-        </div>
-
-        <!-- 3D Title Box -->
-        <div class="glass-card-3d w-full p-6 md:p-10 text-center mb-8 relative overflow-hidden group" id="hero-card">
-            <div class="absolute -top-10 -left-10 w-32 h-32 bg-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
-            <p class="font-orbitron text-sm md:text-lg text-cyan-400 font-bold tracking-widest uppercase mb-2">
-                <i class="fa-solid fa-gamepad text-pink-500 mr-2 animate-bounce"></i>SUPERHERO MODE ACTIVE
-            </p>
-
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black font-orbitron tracking-wider neon-text-cyan my-3 leading-tight">
-                LEVEL 10 <br><span class="text-pink-500 neon-text-pink">UNLOCKED!</span> 🎮
-            </h1>
-
-            <h2 class="text-3xl md:text-5xl font-black text-yellow-300 neon-text-gold mt-4">
-                HAPPY BIRTHDAY <br class="md:hidden"><span class="underline decoration-pink-500">ASHAR!</span> 🚀✨
-            </h2>
-
-            <p class="mt-6 text-slate-300 text-base md:text-xl max-w-2xl mx-auto leading-relaxed font-semibold">
-                Welcome to <strong>AGE 10</strong>! Official Double-Digit TikTok Star & Gamer status is now active! 🔥⚡
-            </p>
-
-            <!-- 3D Ultra Blast Gift Button -->
-            <div class="mt-8">
-                <button id="blast-btn" onclick="triggerSuperBlast()" class="btn-3d text-white font-orbitron font-black text-lg md:text-2xl py-4 px-8 md:px-12 rounded-full cursor-pointer flex items-center justify-center gap-3 mx-auto">
-                    <i class="fa-solid fa-gift text-2xl animate-spin"></i>
-                    <span>3D ULTRA GIFT BLAST!</span>
-                    <i class="fa-solid fa-wand-magic-sparkles text-2xl"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Interactive 3D Stats & Wish Box -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mb-8">
-            <div class="glass-card-3d p-5 text-center flex flex-col items-center justify-center">
-                <i class="fa-solid fa-bolt text-4xl text-yellow-400 mb-2 neon-text-gold"></i>
-                <h3 class="font-orbitron font-bold text-lg text-cyan-300">ENERGY LEVEL</h3>
-                <p class="text-2xl font-black text-white">OVER 9000!⚡</p>
-            </div>
-            <div class="glass-card-3d p-5 text-center flex flex-col items-center justify-center">
-                <i class="fa-solid fa-crown text-4xl text-pink-500 mb-2 neon-text-pink"></i>
-                <h3 class="font-orbitron font-bold text-lg text-cyan-300">STATUS</h3>
-                <p class="text-2xl font-black text-white">AGE 10 KING 👑</p>
-            </div>
-            <div class="glass-card-3d p-5 text-center flex flex-col items-center justify-center">
-                <i class="fa-solid fa-trophy text-4xl text-cyan-400 mb-2 neon-text-cyan"></i>
-                <h3 class="font-orbitron font-bold text-lg text-cyan-300">TIKTOK POWER</h3>
-                <p class="text-2xl font-black text-white">100% VIRAL 🚀</p>
-            </div>
-        </div>
-
-        <!-- Birthday Message Note -->
-        <div class="glass-card-3d w-full p-6 text-center mb-10 border-l-8 border-pink-500">
-            <p class="text-lg md:text-xl font-bold text-pink-300 mb-1">
-                <i class="fa-solid fa-heart-pulse text-red-500 mr-2"></i>SPECIAL WISH FOR ASHAR:
-            </p>
-            <p class="text-white text-base md:text-lg leading-relaxed font-medium">
-                "May your 10th year be full of high scores, unlimited victory royales, endless cake, crazy fun, and tons of viral videos! Keep shining bright, Superhero!" 🌟🎁🎂
-            </p>
-        </div>
-
-        <!-- TikTok Showcase Header -->
-        <div class="text-center my-6">
-            <span class="badge-3d text-xs font-orbitron px-4 py-1.5 rounded-full font-bold">VIRAL COLLECTION</span>
-            <h2 class="text-3xl md:text-5xl font-black font-orbitron text-cyan-300 neon-text-cyan mt-3">
-                🎬 ASHAR'S TIKTOK SHOWCASE 🎬
-            </h2>
-            <p class="text-slate-400 text-sm md:text-base mt-2">Check out Ashar's coolest viral hits & videos below!</p>
-        </div>
-
-        <!-- TikTok Embed Grid Container -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 w-full mb-12">
-
-            <!-- Video Card 1 -->
-            <div class="glass-card-3d p-3 flex flex-col items-center">
-                <div class="w-full text-xs font-orbitron text-pink-400 font-bold mb-2 flex justify-between px-2">
-                    <span><i class="fa-solid fa-play text-cyan-400 mr-1"></i> VIDEO #1</span>
-                    <span>@raoasim40</span>
-                </div>
-                <blockquote class="tiktok-embed rounded-2xl overflow-hidden w-full" cite="https://www.tiktok.com/@raoasim40/video/7548327288731864338" data-video-id="7548327288731864338" style="max-width: 100%; min-width: 280px;">
-                    <section><a target="_blank" href="https://www.tiktok.com/@raoasim40/video/7548327288731864338">@raoasim40</a></section>
-                </blockquote>
-            </div>
-
-            <!-- Video Card 2 -->
-            <div class="glass-card-3d p-3 flex flex-col items-center">
-                <div class="w-full text-xs font-orbitron text-pink-400 font-bold mb-2 flex justify-between px-2">
-                    <span><i class="fa-solid fa-play text-cyan-400 mr-1"></i> VIDEO #2</span>
-                    <span>@raoasim40</span>
-                </div>
-                <blockquote class="tiktok-embed rounded-2xl overflow-hidden w-full" cite="https://www.tiktok.com/@raoasim40/video/7489158172897217799" data-video-id="7489158172897217799" style="max-width: 100%; min-width: 280px;">
-                    <section><a target="_blank" href="https://www.tiktok.com/@raoasim40/video/7489158172897217799">@raoasim40</a></section>
-                </blockquote>
-            </div>
-
-            <!-- Video Card 3 -->
-            <div class="glass-card-3d p-3 flex flex-col items-center">
-                <div class="w-full text-xs font-orbitron text-pink-400 font-bold mb-2 flex justify-between px-2">
-                    <span><i class="fa-solid fa-play text-cyan-400 mr-1"></i> VIDEO #3</span>
-                    <span>@raoasim40</span>
-                </div>
-                <blockquote class="tiktok-embed rounded-2xl overflow-hidden w-full" cite="https://www.tiktok.com/@raoasim40/video/7483751734167211282" data-video-id="7483751734167211282" style="max-width: 100%; min-width: 280px;">
-                    <section><a target="_blank" href="https://www.tiktok.com/@raoasim40/video/7483751734167211282">@raoasim40</a></section>
-                </blockquote>
-            </div>
-
-            <!-- Video Card 4 -->
-            <div class="glass-card-3d p-3 flex flex-col items-center">
-                <div class="w-full text-xs font-orbitron text-pink-400 font-bold mb-2 flex justify-between px-2">
-                    <span><i class="fa-solid fa-play text-cyan-400 mr-1"></i> VIDEO #4</span>
-                    <span>@raoasim40</span>
-                </div>
-                <blockquote class="tiktok-embed rounded-2xl overflow-hidden w-full" cite="https://www.tiktok.com/@raoasim40/video/7466873756212841735" data-video-id="7466873756212841735" style="max-width: 100%; min-width: 280px;">
-                    <section><a target="_blank" href="https://www.tiktok.com/@raoasim40/video/7466873756212841735">@raoasim40</a></section>
-                </blockquote>
-            </div>
-
-            <!-- Video Card 5 (Photo) -->
-            <div class="glass-card-3d p-3 flex flex-col items-center">
-                <div class="w-full text-xs font-orbitron text-pink-400 font-bold mb-2 flex justify-between px-2">
-                    <span><i class="fa-solid fa-camera text-yellow-400 mr-1"></i> PHOTO POST #5</span>
-                    <span>@raoasim40</span>
-                </div>
-                <blockquote class="tiktok-embed rounded-2xl overflow-hidden w-full" cite="https://www.tiktok.com/@raoasim40/photo/7424830188925586706" data-video-id="7424830188925586706" style="max-width: 100%; min-width: 280px;">
-                    <section><a target="_blank" href="https://www.tiktok.com/@raoasim40/photo/7424830188925586706">@raoasim40</a></section>
-                </blockquote>
-            </div>
-
-            <!-- Video Card 6 -->
-            <div class="glass-card-3d p-3 flex flex-col items-center">
-                <div class="w-full text-xs font-orbitron text-pink-400 font-bold mb-2 flex justify-between px-2">
-                    <span><i class="fa-solid fa-play text-cyan-400 mr-1"></i> VIDEO #6</span>
-                    <span>@raoasim40</span>
-                </div>
-                <blockquote class="tiktok-embed rounded-2xl overflow-hidden w-full" cite="https://www.tiktok.com/@raoasim40/video/6903864027873676546" data-video-id="6903864027873676546" style="max-width: 100%; min-width: 280px;">
-                    <section><a target="_blank" href="https://www.tiktok.com/@raoasim40/video/6903864027873676546">@raoasim40</a></section>
-                </blockquote>
-            </div>
-
-            <!-- Video Card 7 -->
-            <div class="glass-card-3d p-3 flex flex-col items-center md:col-span-2 max-w-md mx-auto w-full">
-                <div class="w-full text-xs font-orbitron text-pink-400 font-bold mb-2 flex justify-between px-2">
-                    <span><i class="fa-solid fa-play text-cyan-400 mr-1"></i> VIDEO #7</span>
-                    <span>@raoasim40</span>
-                </div>
-                <blockquote class="tiktok-embed rounded-2xl overflow-hidden w-full" cite="https://www.tiktok.com/@raoasim40/video/6891952080148417794" data-video-id="6891952080148417794" style="max-width: 100%; min-width: 280px;">
-                    <section><a target="_blank" href="https://www.tiktok.com/@raoasim40/video/6891952080148417794">@raoasim40</a></section>
-                </blockquote>
-            </div>
-
-        </div>
-
-        <!-- Footer -->
-        <footer class="text-center text-slate-400 text-xs font-orbitron py-6 border-t border-white/10 w-full">
-            <p>DESIGNED ESPECIALLY FOR ASHAR'S 10TH BIRTHDAY 🎂🎮</p>
-            <p class="text-cyan-400 mt-1">OCTOBER 12, 2026 • SUPERHERO EDITION</p>
-        </footer>
-    </main>
-
-    <script>
-        // --- TARGET DATE CONFIGURATION (12 October 2026) ---
-        const TARGET_DATE = new Date('October 12, 2026 00:00:00').getTime();
-
-        // --- Web Audio Synthesizer for Audio FX ---
-        let audioCtx;
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
-
-        function playBlastSound() {
-            initAudio();
-            if (!audioCtx) return;
-
-            // Retro Arcade Explosive Sound Effect
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(520, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.7);
-
-            gain.gain.setValueAtTime(1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.7);
-
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.7);
-        }
-
-        function playUnlockChime() {
-            initAudio();
-            if (!audioCtx) return;
-
-            const notes = [261.63, 329.63, 392.00, 523.25]; // C E G C
-            notes.forEach((freq, idx) => {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.1);
-
-                gain.gain.setValueAtTime(0.3, audioCtx.currentTime + idx * 0.1);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + idx * 0.1 + 0.4);
-
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-
-                osc.start(audioCtx.currentTime + idx * 0.1);
-                osc.stop(audioCtx.currentTime + idx * 0.1 + 0.4);
-            });
-        }
-
-        // --- Countdown Timer Logic ---
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = TARGET_DATE - now;
-
-            if (distance <= 0) {
-                // Target reached: unlock app automatically
-                document.getElementById('lock-screen').style.display = 'none';
-                return;
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('cd-days').innerText = String(days).padStart(2, '0');
-            document.getElementById('cd-hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('cd-minutes').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('cd-seconds').innerText = String(seconds).padStart(2, '0');
-        }
-
-        function bypassLock() {
-            playUnlockChime();
-            const lockScreen = document.getElementById('lock-screen');
-            lockScreen.style.opacity = '0';
-            setTimeout(() => {
-                lockScreen.style.display = 'none';
-                triggerSuperBlast();
-            }, 500);
-        }
-
-        // --- Three.js 3D Background Engine ---
-        let scene, camera, renderer, particles, cubes = [];
-
-        function initThreeJS() {
-            const canvas = document.getElementById('webgl-bg');
-            scene = new THREE.Scene();
-
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 30;
-
-            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            // Floating Star Particles
-            const particleCount = 450;
-            const geometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(particleCount * 3);
-            const colors = new Float32Array(particleCount * 3);
-
-            const colorOptions = [
-                new THREE.Color(0x00f2fe), // Cyan
-                new THREE.Color(0xff007f), // Pink
-                new THREE.Color(0xffe600)  // Gold
-            ];
-
-            for (let i = 0; i < particleCount * 3; i += 3) {
-                positions[i] = (Math.random() - 0.5) * 100;
-                positions[i + 1] = (Math.random() - 0.5) * 100;
-                positions[i + 2] = (Math.random() - 0.5) * 100;
-
-                const c = colorOptions[Math.floor(Math.random() * colorOptions.length)];
-                colors[i] = c.r;
-                colors[i + 1] = c.g;
-                colors[i + 2] = c.b;
-            }
-
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-            const material = new THREE.PointsMaterial({
-                size: 0.8,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.85
-            });
-
-            particles = new THREE.Points(geometry, material);
-            scene.add(particles);
-
-            // Floating 3D Gift Cubes
-            const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
-            for (let i = 0; i < 14; i++) {
-                const boxMaterial = new THREE.MeshBasicMaterial({
-                    color: colorOptions[i % colorOptions.length],
-                    wireframe: true
-                });
-                const cube = new THREE.Mesh(boxGeometry, boxMaterial);
-                cube.position.set(
-                    (Math.random() - 0.5) * 60,
-                    (Math.random() - 0.5) * 60,
-                    (Math.random() - 0.5) * 40
-                );
-                cube.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
-                scene.add(cube);
-                cubes.push(cube);
-            }
-
-            animate();
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // Rotate Particles
-            particles.rotation.y += 0.001;
-            particles.rotation.x += 0.0005;
-
-            // Rotate 3D Cubes
-            cubes.forEach((cube, index) => {
-                cube.rotation.x += 0.01 * (index % 2 === 0 ? 1 : -1);
-                cube.rotation.y += 0.015;
-                cube.position.y += Math.sin(Date.now() * 0.001 + index) * 0.02;
-            });
-
-            renderer.render(scene, camera);
-        }
-
-        // --- Window Resize Listener ---
-        window.addEventListener('resize', () => {
-            if (camera && renderer) {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-        });
-
-        // --- 3D Card Tilt Effect ---
-        const cards = document.querySelectorAll('.glass-card-3d');
-        
-        function handleMove(e, card) {
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateX = ((y - centerY) / centerY) * -10;
-            const rotateY = ((x - centerX) / centerX) * 10;
-
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-        }
-
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => handleMove(e, card));
-            card.addEventListener('touchmove', (e) => handleMove(e, card));
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-            });
-            card.addEventListener('touchend', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-            });
-        });
-
-        // --- Confetti & Blast Trigger ---
-        function triggerSuperBlast() {
-            playBlastSound();
-
-            // Screen Shake Effect
-            const body = document.body;
-            body.classList.add('shake-screen');
-            setTimeout(() => body.classList.remove('shake-screen'), 500);
-
-            // Multi-stage Fireworks Confetti Explosions
-            const duration = 3.5 * 1000;
-            const end = Date.now() + duration;
-
-            (function frame() {
-                confetti({
-                    particleCount: 7,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#00f2fe', '#ff007f', '#ffe600']
-                });
-                confetti({
-                    particleCount: 7,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#00f2fe', '#ff007f', '#ffe600']
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
-        }
-
-        // --- Initialize Page & Countdown ---
-        window.onload = function() {
-            initThreeJS();
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-
-            // Auto-check target date
-            if (new Date().getTime() >= TARGET_DATE) {
-                document.getElementById('lock-screen').style.display = 'none';
-                setTimeout(() => triggerSuperBlast(), 600);
-            }
-        };
-    </script>
-</body>
-</html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LEVEL 10 UNLOCKED! Happy Birthday Ashar! 🎮🚀</title>
+<style>
+:root{--v:#7c4dff;--b:#27d4ff;--g:#ffd54a;--bg:#07030f}
+*{box-sizing:border-box}html,body{margin:0;overflow-x:hidden}
+body{background:var(--bg);color:#efeaff;font:16px/1.5 "Trebuchet MS",Verdana,sans-serif;min-height:100vh}
+body.dim:after{content:"";position:fixed;inset:0;background:#000b;z-index:5;pointer-events:none;animation:fo 2.2s forwards}
+@keyframes fo{to{opacity:0}}
+canvas#bg,canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+canvas#bg{z-index:0}canvas#fx{z-index:60}
+.grid{position:fixed;left:-50%;width:200%;bottom:-10%;height:55vh;z-index:0;opacity:.35;transform:perspective(300px) rotateX(60deg);background:linear-gradient(var(--v) 1px,transparent 1px) 0 0/60px 60px,linear-gradient(90deg,var(--v) 1px,transparent 1px) 0 0/60px 60px;animation:gm 3s linear infinite}
+@keyframes gm{to{background-position:0 60px}}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--g);outline-offset:3px}
+.btn{background:linear-gradient(135deg,var(--v),#c040ff);color:#fff;border:2px solid #fff6;border-radius:14px;padding:14px 24px;font-weight:700;letter-spacing:.04em;box-shadow:0 0 24px #7c4dff88;margin:8px;min-height:48px}
+.btn.ghost{background:#ffffff14;box-shadow:none}.btn:hover{filter:brightness(1.2)}
+#hud{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center;padding:8px 12px;background:#0a0418cc;border-bottom:1px solid #7c4dff88;font-size:12px;letter-spacing:.08em}
+#hud b{color:var(--b)}#hud .sp{flex:1}
+#hud button{background:#ffffff18;border:1px solid #fff4;color:#fff;border-radius:8px;min-width:40px;min-height:36px}
+#intro{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px;background:radial-gradient(ellipse at 50% 30%,#2a0f5c,#07030f 70%);overflow:hidden}
+#intro:before,#intro:after{content:"";position:absolute;top:-10%;width:40vmax;height:120vh;background:linear-gradient(#cdb8ff55,transparent 70%);clip-path:polygon(45% 0,55% 0,100% 100%,0 100%);filter:blur(8px);animation:sw 7s ease-in-out infinite alternate}
+#intro:before{left:5%;transform:rotate(18deg)}#intro:after{right:5%;transform:rotate(-18deg);animation-delay:-3s}
+@keyframes sw{to{opacity:.4}}
+#intro>*{position:relative;z-index:1}
+.emb{width:110px;height:110px;margin:0 auto 10px;transform-style:preserve-3d;animation:sp 6s linear infinite}
+.emb i{position:absolute;inset:0;border-radius:50%;border:8px solid;border-color:#fff #8d7bff #3a2a99 #cfc6ff;box-shadow:0 0 20px var(--v)}
+.emb i:nth-child(2){transform:rotateY(60deg)}.emb i:nth-child(3){transform:rotateY(120deg)}
+@keyframes sp{to{transform:rotateY(360deg) rotateZ(360deg)}}
+.name{font:900 clamp(54px,17vw,170px)/1 Impact,"Arial Black",sans-serif;margin:0;letter-spacing:.04em;background:linear-gradient(#fff 15%,#b9c0ff 45%,#5b4bd6 50%,#e7e1ff 62%,#8f98d8);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #3b2d8f) drop-shadow(0 6px 0 #241a63) drop-shadow(0 0 26px #27d4ff88);animation:en 1.4s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes en{from{transform:translateZ(-400px) scale(.2);opacity:0}}
+.lv{font-size:clamp(18px,4vw,30px);font-weight:800;color:var(--g);text-shadow:0 0 16px var(--g);letter-spacing:.2em;margin:6px 0}
+.cd{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.cd div{min-width:68px;padding:8px;background:#ffffff12;border:1px solid #7c4dff88;border-radius:10px}
+.cd b{display:block;font-size:26px;color:var(--b)}.cd small{font-size:11px;letter-spacing:.1em}
+.cd p{margin:0;font-size:20px;font-weight:800;color:var(--g)}
+#portal{position:fixed;left:50%;top:50%;width:20px;height:20px;margin:-10px;border-radius:50%;z-index:55;background:radial-gradient(#fff,#c040ff 40%,#27d4ff 70%,#07030f);pointer-events:none;animation:po 1s ease-in forwards}
+@keyframes po{to{transform:scale(260)}}
+main{position:relative;z-index:2;max-width:980px;margin:0 auto;padding:78px 14px 40px;text-align:center}
+.stage,.sec{background:#12082acc;border:1px solid #7c4dff77;border-radius:20px;padding:20px 14px;margin:0 auto 24px;box-shadow:0 0 40px #7c4dff33;backdrop-filter:blur(4px)}
+[hidden]{display:none!important}
+h2{font:800 clamp(22px,5vw,38px)/1.15 Impact,"Arial Black",sans-serif;margin:0 0 8px;letter-spacing:.03em;color:#fff;text-shadow:0 0 18px var(--v)}
+.mp{color:var(--g);font-weight:700}
+#ck{max-width:100%;height:auto;touch-action:none;cursor:crosshair;border-radius:14px;background:radial-gradient(ellipse at 50% 20%,#3b1a78,#0b0418 75%)}
+.hd2{font-weight:700;letter-spacing:.06em}.hd2 b{color:var(--g)}
+.cds{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:24px 0}
+.cdl{width:44px;height:96px;border:0;background:none;position:relative;padding:0}
+.cdl:before{content:"";position:absolute;bottom:0;left:12px;width:20px;height:68px;border-radius:4px;background:repeating-linear-gradient(135deg,#fff 0 6px,var(--c) 6px 12px)}
+.cdl span{position:absolute;left:14px;top:2px;width:16px;height:28px;border-radius:50% 50% 50% 50%/65% 65% 35% 35%;background:radial-gradient(#fff,#ffb300 50%,#ff5a00);box-shadow:0 0 22px 8px #ffa50088;animation:fl .3s infinite alternate}
+@keyframes fl{to{transform:scale(1.1,.9) rotate(4deg)}}
+.cdl.out span{display:none}
+.chest{position:relative;width:240px;height:210px;margin:28px auto;border:0;background:none;perspective:700px}
+.bx{position:absolute;bottom:0;left:0;width:100%;height:120px;background:linear-gradient(#e2b94d,#8a6a1c);border:4px solid #fff3b0;border-radius:8px;box-shadow:0 20px 40px #000a,0 0 40px #ffd54a66}
+.bx:after{content:"";position:absolute;left:46%;top:-4px;width:8%;height:100%;background:#5b3d00}
+.lid{position:absolute;bottom:116px;left:0;width:100%;height:64px;transform-origin:50% 100%;transition:transform .8s;background:linear-gradient(#f0cd6a,#a37e22);border:4px solid #fff3b0;border-radius:40px 40px 6px 6px}
+.glow{position:absolute;left:12%;width:76%;height:0;bottom:114px;background:linear-gradient(#ffd54a,#c040ff88,transparent);filter:blur(10px);transition:height .7s}
+.chest.open .lid{transform:rotateX(115deg)}.chest.open .glow{height:240px}
+.card{background:linear-gradient(160deg,#241050,#0f0726);border:2px solid var(--g);border-radius:18px;padding:22px;margin:16px auto;max-width:640px;text-align:left;box-shadow:0 0 40px #ffd54a55;font:19px/1.65 Georgia,serif}
+.card h3{font:800 clamp(22px,5vw,32px) Impact,sans-serif;color:var(--g);text-align:center;margin:0 0 10px}
+.card p{margin:.5em 0}
+.scene{height:380px;perspective:1000px;margin:10px 0;display:flex;align-items:center;justify-content:center;touch-action:pan-y}
+.ring{position:relative;width:190px;height:290px;transform-style:preserve-3d;transition:transform .8s}
+.fr{position:absolute;inset:0;padding:8px 8px 30px;background:#fff;border:0;border-radius:6px;box-shadow:0 0 22px var(--b),0 10px 30px #000a;backface-visibility:hidden}
+.fr img{width:100%;height:100%;object-fit:cover;border-radius:3px;display:block}
+.nav{display:flex;gap:10px;justify-content:center}
+.chal{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.chal button{width:78px;height:100px;border:3px solid #fff6;border-radius:10px;background-size:cover;background-position:center}
+#zm{width:150px;height:150px;margin:8px auto;border-radius:12px;border:3px solid var(--g);background-repeat:no-repeat}
+.tk{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.tk a{display:block;padding:16px;border-radius:12px;background:#ffffff10;border:1px solid #27d4ff77;color:#fff;text-decoration:none}
+.tk a:hover{background:#27d4ff22}.tk small{color:var(--b)}
+#lb{position:fixed;inset:0;z-index:70;background:#000e;display:flex;align-items:center;justify-content:center}
+#lb img{max-width:92vw;max-height:84vh;border-radius:8px;box-shadow:0 0 40px var(--v);transition:transform .3s;touch-action:none}
+#lb .btn{position:absolute}
+footer{position:relative;z-index:2;text-align:center;padding:20px;font-size:13px;color:#b9aee0}
+@media(prefers-reduced-motion:reduce){*,:before,:after{animation:none!important;transition:none!important}}
+</style></head><body>
+<canvas id="bg"></canvas><div class="grid" aria-hidden="true"></div><canvas id="fx"></canvas>
+
+<div id="intro">
+ <div class="emb" aria-hidden="true"><i></i><i></i><i></i></div>
+ <h1 class="name">ASHAR</h1>
+ <div class="lv">LEVEL 10 UNLOCKED</div>
+ <p style="font-weight:800;letter-spacing:.15em;margin:0 0 6px">THE BIRTHDAY LEGEND BEGINS.</p>
+ <div class="cd" aria-live="off"></div>
+ <div><button class="btn" id="enter">ENTER THE BIRTHDAY UNIVERSE</button></div>
+ <button class="btn ghost" id="skip">SKIP INTRO</button>
+</div>
+
+<div id="hud"><span>PLAYER: <b>ASHAR</b></span><span>LEVEL: <b>10</b></span><span>MISSION: <b>BIRTHDAY CELEBRATION</b></span><span>ACHIEVEMENT: <b>LEGEND UNLOCKED</b></span><span class="sp"></span>
+ <button id="mus" aria-label="Play music" aria-pressed="false">♪</button><button id="mut" aria-label="Mute sounds" aria-pressed="false">🔊</button></div>
+
+<main>
+ <section class="stage" id="s1"><h2>MISSION 01: CUT THE BIRTHDAY CAKE</h2><p class="mp">ASHAR IS WAITING!</p>
+  <p class="hd2">TIME <b id="tm">30</b>s &nbsp; SCORE <b id="sc">0</b></p>
+  <canvas id="ck" width="420" height="340" tabindex="0" aria-label="Birthday cake. Drag or swipe across it to cut. Keyboard: press Enter."></canvas>
+  <p id="tip">1. Press “Grab the knife”. 2. Drag or swipe straight across the cake before the timer ends.</p>
+  <button class="btn" id="kn">GRAB THE KNIFE</button><button class="btn" id="n1" hidden>NEXT: MAKE A WISH</button></section>
+
+ <section class="stage" id="s2" hidden><h2>MISSION 02: MAKE A WISH</h2><p>Tap each candle to blow it out, or use the button.</p>
+  <div class="cds" id="cds"></div>
+  <button class="btn ghost" id="blow">BLOW OUT THE CANDLES</button>
+  <div id="wish" hidden><h2 style="color:var(--g)">WISH UNLOCKED!</h2><p>Your wish is on its way to level 10…</p><button class="btn" id="n2">NEXT: THE GIFT</button></div></section>
+
+ <section class="stage" id="s3" hidden><h2>LEGENDARY REWARD DETECTED</h2><p class="mp">OPEN YOUR LEVEL 10 GIFT</p>
+  <button class="chest" id="chest" aria-label="Open the gift"><div class="glow"></div><div class="lid"></div><div class="bx"></div></button>
+  <div id="msg" class="card" hidden>
+   <h3>HAPPY 10TH BIRTHDAY, ASHAR!</h3>
+   <p>Today, a new level begins.</p>
+   <p>May your life always be filled with happiness, laughter, amazing adventures, unforgettable memories, and dreams bigger than the universe.</p>
+   <p>Keep exploring, keep learning, keep smiling, and never stop being the legend you are.</p>
+   <p>Today is your day. Your family, your memories, and your next great adventure are waiting.</p>
+   <p style="text-align:center;color:var(--g);font-weight:bold">HAPPY BIRTHDAY, ASHAR!</p></div>
+  <div><button class="btn" id="go" hidden>ENTER THE MEMORY ROOM</button><button class="btn ghost" id="again" hidden>REPLAY EVERYTHING</button></div></section>
+
+ <div id="rev" hidden>
+  <section class="sec" id="gal"><h2>THE CRAZY COUSINS SQUAD</h2><p class="mp">ONE FAMILY. ENDLESS MEMORIES. UNLIMITED CHAOS.</p>
+   <div class="scene"><div class="ring" id="ring"></div></div>
+   <p id="gempty" hidden>Add photo files to the <code>photos/</code> folder (see photo list in the script) to fill this room.</p>
+   <div class="nav"><button class="btn ghost" id="gp" aria-label="Previous photo">◀</button><button class="btn ghost" id="gn" aria-label="Next photo">▶</button></div>
+   <p style="font-size:14px">Tap a photo to view it full screen.</p></section>
+  <section class="sec"><h2>COUSINS CHAOS CHALLENGE</h2><div id="chm"></div></section>
+  <section class="sec"><h2>ASHAR'S DIGITAL MEMORIES</h2><div class="tk" id="tk"></div></section>
+  <section class="sec"><h2>BIRTHDAY COUNTDOWN</h2><div class="cd"></div><p style="font-size:13px">Counted to 12 October 2026, 00:00 Pakistan time (UTC+5).</p></section>
+ </div>
+</main>
+<footer>DESIGNED ESPECIALLY FOR ASHAR'S 10TH BIRTHDAY 🎂🎮 · 12 OCTOBER 2026</footer>
+<div id="lb" hidden><img id="lbi" alt="Family photo"><button class="btn" id="lc" style="top:12px;right:8px" aria-label="Close">✕</button><button class="btn" id="lp" style="left:4px" aria-label="Previous">◀</button><button class="btn" id="ln" style="right:4px" aria-label="Next">▶</button></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches,LOW=RM||(navigator.hardwareConcurrency||4)<=4;
+/* ---- PHOTO LIST: put real files in /photos and list them here. Only files that load are shown. ---- */
+const PH=['photos/photo1.jpg','photos/photo2.jpg','photos/photo3.jpg'];
+/* ---- TikTok links preserved from the original site ---- */
+const TK=[['video','7548327288731864338'],['video','7489158172897217799'],['video','7483751734167211282'],['video','7466873756212841735'],['photo','7424830188925586706'],['video','6903864027873676546'],['video','6891952080148417794']];
+$('#tk').innerHTML=TK.map((t,i)=>`<a href="https://www.tiktok.com/@raoasim40/${t[0]}/${t[1]}" target="_blank" rel="noopener noreferrer"><small>${t[0]=='photo'?'PHOTO POST':'VIDEO'} #${i+1}</small><br><b>@raoasim40</b><br>Open on TikTok</a>`).join('');
+
+/* ---- audio (synthesised, no files needed; starts only after a click) ---- */
+let AC,mOn=0,muted=0,mi=0,mt;
+const ac=()=>{if(!AC)try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}if(AC&&AC.state=='suspended')AC.resume();return AC};
+function tone(f,d=.15,t='sine',v=.07,at=0){const a=AC;if(!a||muted)return;const o=a.createOscillator(),g=a.createGain(),s=a.currentTime+at;o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g);g.connect(a.destination);o.start(s);o.stop(s+d)}
+const sfx={cut(){ac();tone(900,.12,'sawtooth',.05);tone(300,.25,'sawtooth',.05,.08)},pop(){ac();tone(660,.08,'square',.04)},win(){ac();[523,659,784,1047].forEach((f,i)=>tone(f,.3,'triangle',.08,i*.1))},gift(){ac();[392,523,659,784,988].forEach((f,i)=>tone(f,.45,'sine',.08,i*.12))}};
+const M=[[392,.5],[392,.5],[440,1],[392,1],[523,1],[494,2],[392,.5],[392,.5],[440,1],[392,1],[587,1],[523,2],[392,.5],[392,.5],[784,1],[659,1],[523,1],[494,1],[440,2],[698,.5],[698,.5],[659,1],[523,1],[587,1],[523,2]];
+function play(){if(!mOn)return;const[f,b]=M[mi++%M.length];tone(f,b*.4,'triangle',.06);mt=setTimeout(play,b*400)}
+$('#mus').onclick=e=>{mOn=!mOn;e.currentTarget.setAttribute('aria-pressed',!!mOn);clearTimeout(mt);if(mOn){ac();play()}};
+$('#mut').onclick=e=>{muted=!muted;e.currentTarget.textContent=muted?'🔇':'🔊';e.currentTarget.setAttribute('aria-pressed',!!muted)};
+
+/* ---- background stars + confetti ---- */
+const bg=$('#bg'),bx=bg.getContext('2d'),fx=$('#fx'),fc=fx.getContext('2d');let S=[];
+function rs(){bg.width=fx.width=innerWidth;bg.height=fx.height=innerHeight;S=Array.from({length:LOW?50:110},()=>({x:Math.random()*bg.width,y:Math.random()*bg.height,z:Math.random()*2+.3}));if(RM)stars(0)}
+function stars(m=1){bx.clearRect(0,0,bg.width,bg.height);for(const s of S){s.y+=s.z*.4*m;if(s.y>bg.height){s.y=0;s.x=Math.random()*bg.width}bx.fillStyle=s.z>1.6?'#27d4ff':'#cdb8ff';bx.globalAlpha=.4+s.z/3;bx.fillRect(s.x,s.y,s.z,s.z)}bx.globalAlpha=1}
+function sl(){if(!document.hidden)stars();requestAnimationFrame(sl)}
+addEventListener('resize',rs);rs();if(!RM)sl();
+let P=[],raf=0;
+function burst(n,x=innerWidth/2,y=innerHeight/2,gold){n=LOW?n/3|0:n;for(let i=0;i<n;i++)P.push({x,y,vx:(Math.random()-.5)*16,vy:-Math.random()*15-3,r:3+Math.random()*4,rot:Math.random()*6,l:80+Math.random()*60,c:`hsl(${gold?38+Math.random()*25:Math.random()*360} 90% 60%)`});if(!raf)raf=requestAnimationFrame(cl)}
+function cl(){fc.clearRect(0,0,fx.width,fx.height);P=P.filter(p=>p.l>0&&p.y<fx.height+20);for(const p of P){p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.l--;p.rot+=.2;fc.fillStyle=p.c;fc.save();fc.translate(p.x,p.y);fc.rotate(p.rot);fc.fillRect(-p.r,-p.r/2,p.r*2,p.r);fc.restore()}raf=P.length?requestAnimationFrame(cl):0;if(!raf)fc.clearRect(0,0,fx.width,fx.height)}
+
+/* ---- countdown: 12 Oct 2026 00:00 Pakistan time (UTC+5) ---- */
+const T=Date.parse('2026-10-12T00:00:00+05:00'),E=T+864e5;
+function tick(){const n=Date.now();let h;
+ if(n<T){const d=T-n,v=[d/864e5,d%864e5/36e5,d%36e5/6e4,d%6e4/1e3].map(Math.floor);h=['Days','Hours','Mins','Secs'].map((l,i)=>`<div><b>${v[i]}</b><small>${l}</small></div>`).join('')}
+ else if(n<E)h="<p>🎉 IT'S ASHAR'S BIRTHDAY! LEVEL 10 IS LIVE! 🎉</p>";
+ else h='<p>Birthday complete — what a level-up, Ashar! 🏆</p>';
+ $$('.cd').forEach(e=>e.innerHTML=h)}
+tick();setInterval(tick,1000);
+
+/* ---- intro / stages ---- */
+function enter(portal){ac();if(portal&&!RM){const p=document.createElement('div');p.id='portal';document.body.append(p);setTimeout(()=>p.remove(),1100);setTimeout(()=>$('#intro').remove(),700)}else $('#intro').remove();$('#kn').focus({preventScroll:true})}
+$('#enter').onclick=()=>enter(1);$('#skip').onclick=()=>enter(0);
+function go(n){$$('.stage').forEach(s=>s.hidden=s.id!='s'+n);scrollTo(0,0)}
+document.addEventListener('mousemove',e=>{if(RM||LOW)return;const x=(e.clientX/innerWidth-.5)*8,y=(e.clientY/innerHeight-.5)*-6;$('#ring').style.setProperty('--t',`rotateX(${y}deg)`)});
+
+/* ---- Mission 1: cake cutting ---- */
+const ck=$('#ck'),c=ck.getContext('2d');let active=0,done=0,drag=null,tL=30,ti,sep=0,cutL=null;
+const LY=[{y:285,h:52,rx:140,c:'#6b3416'},{y:233,h:52,rx:114,c:'#f4a6c0'},{y:181,h:52,rx:88,c:'#6b3416'}];
+function ell(x,y,rx,ry,f){c.beginPath();c.ellipse(x,y,rx,ry,0,0,7);c.fillStyle=f;c.fill()}
+function cake(){const X=210;
+ let g=c.createLinearGradient(30,0,390,0);g.addColorStop(0,'#555');g.addColorStop(.4,'#f3f3f8');g.addColorStop(1,'#666');
+ ell(X,318,170,20,'#000a');ell(X,310,170,22,g);c.fillStyle=g;c.fillRect(X-12,300,24,10);
+ LY.forEach((L,i)=>{const ry=L.rx*.26;ell(X,L.y,L.rx,ry,L.c);c.fillStyle=L.c;c.fillRect(X-L.rx,L.y-L.h,2*L.rx,L.h);
+  const sh=c.createLinearGradient(X-L.rx,0,X+L.rx,0);sh.addColorStop(0,'#0006');sh.addColorStop(.35,'#fff3');sh.addColorStop(1,'#0007');c.fillStyle=sh;c.fillRect(X-L.rx,L.y-L.h,2*L.rx,L.h);
+  ell(X,L.y-L.h,L.rx,ry,i==1?'#ffd0e0':'#fff4e6');
+  for(let a=0;a<14;a++){const t=a/14*Math.PI;c.beginPath();c.arc(X+Math.cos(t)*(L.rx-6),L.y-L.h+Math.sin(t)*ry+2,7,0,7);c.fillStyle='#fff8f0';c.fill()}
+  if(i==1)for(let a=0;a<18;a++){c.fillStyle=['#27d4ff','#ffd54a','#c040ff'][a%3];c.fillRect(X-L.rx+14+a*(2*L.rx-28)/18,L.y-24+(a%4)*5,4,9)}});
+ const ty=129,k=['#ff4d6d','#27d4ff','#ffd54a','#7cff6b','#c040ff'];
+ for(let i=0;i<10;i++){const t=i/10*6.283,x=X+Math.cos(t)*60,y=ty+Math.sin(t)*15;c.fillStyle=k[i%5];c.fillRect(x-3,y-26,6,26);ell(x,y-33,4,7,'#ffb300');ell(x,y-33,8,12,'#ffb30033')}
+ ell(X,ty-8,10,4,'#d10')}
+function draw(trail){c.clearRect(0,0,420,340);
+ if(cutL){const{ax,ay,dx,dy}=cutL;[-1,1].forEach(s=>{c.save();c.beginPath();const nx=-dy*s,ny=dx*s;c.moveTo(ax-dx*900,ay-dy*900);c.lineTo(ax+dx*900,ay+dy*900);c.lineTo(ax+dx*900+nx*900,ay+dy*900+ny*900);c.lineTo(ax-dx*900+nx*900,ay-dy*900+ny*900);c.closePath();c.clip();c.translate(nx*sep,ny*sep);cake();c.restore()})}
+ else cake();
+ if(trail){c.strokeStyle='#27d4ff';c.lineWidth=4;c.shadowColor='#27d4ff';c.shadowBlur=14;c.lineCap='round';c.beginPath();c.moveTo(trail[0],trail[1]);c.lineTo(trail[2],trail[3]);c.stroke();c.shadowBlur=0}}
+const pt=e=>{const r=ck.getBoundingClientRect();return[(e.clientX-r.left)*420/r.width,(e.clientY-r.top)*340/r.height]};
+function tl(){if(done||!active)return;$('#tm').textContent=--tL;if(tL<=0){clearInterval(ti);active=0;$('#tip').textContent="Time's up! Press the knife button to try again.";$('#kn').textContent='TRY AGAIN';$('#kn').hidden=0}}
+$('#kn').onclick=()=>{ac();cutL=null;sep=0;done=0;active=1;tL=30;$('#tm').textContent=30;$('#sc').textContent=0;$('#kn').hidden=1;$('#tip').textContent='Knife ready! Drag or swipe across the cake.';draw();clearInterval(ti);ti=setInterval(tl,1000);ck.focus({preventScroll:true})};
+ck.addEventListener('pointerdown',e=>{if(!active||done)return;drag=pt(e);ck.setPointerCapture(e.pointerId)});
+ck.addEventListener('pointermove',e=>{if(!drag)return;const p=pt(e);draw([drag[0],drag[1],p[0],p[1]])});
+ck.addEventListener('pointerup',e=>{if(!drag)return;const[a,b]=drag,[x,y]=pt(e);drag=null;const L=Math.hypot(x-a,y-b);
+ if(L>=110){const dx=(x-a)/L,dy=(y-b)/L,dist=Math.abs((210-a)*dy-(150-b)*dx),t=((210-a)*dx+(160-b)*dy)/L;
+  if(dist<90&&t>.2&&t<.8)return doCut(a,b,dx,dy)}
+ draw();$('#tip').textContent='Not quite — swipe in one long line straight across the middle of the cake.'});
+ck.addEventListener('keydown',e=>{if((e.key=='Enter'||e.key==' ')&&active&&!done){e.preventDefault();doCut(210,170,.3,1)}});
+function doCut(ax,ay,dx,dy){done=1;active=0;clearInterval(ti);cutL={ax,ay,dx,dy};sep=0;sfx.cut();
+ const sc=100+tL*10;$('#sc').textContent=sc;
+ (function a(){sep+=1.2;draw();if(sep<22)requestAnimationFrame(a);else{burst(220,innerWidth/2,innerHeight/2.5);sfx.win();$('#tip').textContent=`MISSION COMPLETE! Score: ${sc}. Slice served!`;$('#n1').hidden=0;$('#n1').focus()}})()}
+$('#n1').onclick=()=>go(2);draw();
+
+/* ---- Mission 2: candles ---- */
+const cols=['#ff4d6d','#27d4ff','#ffd54a','#7cff6b','#c040ff'];let out=0;
+$('#cds').innerHTML=Array.from({length:10},(_,i)=>`<button class="cdl" style="--c:${cols[i%5]}" aria-label="Candle ${i+1}, lit"><span></span></button>`).join('');
+function snuff(b){if(b.classList.contains('out'))return;b.classList.add('out');b.setAttribute('aria-label',b.getAttribute('aria-label').replace('lit','out'));sfx.pop();if(++out==10)wishDone()}
+$$('.cdl').forEach(b=>b.onclick=()=>snuff(b));
+$('#blow').onclick=()=>{ac();$$('.cdl:not(.out)').forEach((b,i)=>setTimeout(()=>snuff(b),i*120))};
+function wishDone(){document.body.classList.add('dim');burst(160,innerWidth/2,innerHeight/2,1);sfx.win();$('#wish').hidden=0;$('#blow').hidden=1;$('#n2').focus()}
+$('#n2').onclick=()=>go(3);
+
+/* ---- Gift ---- */
+$('#chest').onclick=()=>{const ch=$('#chest');if(ch.classList.contains('open'))return;ac();ch.classList.add('open');sfx.gift();burst(300,innerWidth/2,innerHeight/2,0);setTimeout(()=>burst(160,innerWidth/2,innerHeight/2,1),350);
+ setTimeout(()=>{$('#msg').hidden=0;$('#go').hidden=0;$('#again').hidden=0;$('#rev').hidden=0;$('#go').focus({preventScroll:true});$('#msg').scrollIntoView({behavior:RM?'auto':'smooth',block:'center'})},700)};
+$('#go').onclick=()=>$('#gal').scrollIntoView({behavior:RM?'auto':'smooth'});
+$('#again').onclick=()=>{$('#chest').classList.remove('open');$('#msg').hidden=$('#go').hidden=$('#again').hidden=$('#wish').hidden=1;$('#blow').hidden=0;$$('.cdl').forEach(b=>{b.classList.remove('out');b.setAttribute('aria-label',b.getAttribute('aria-label').replace('out','lit'))});out=0;document.body.classList.remove('dim');$('#n1').hidden=1;$('#kn').hidden=0;$('#kn').textContent='GRAB THE KNIFE';$('#tip').textContent='Press “Grab the knife”, then drag across the cake.';cutL=null;done=0;active=0;$('#tm').textContent=30;$('#sc').textContent=0;draw();go(1)};
+
+/* ---- Gallery (only photos that really load are shown) ---- */
+let ok=[],gi=0,ST=0;
+const tryLoad=(n,k=0)=>new Promise(r=>{const D=['','photos/'];if(k>=D.length)return r(0);const i=new Image();i.onload=()=>r(D[k]+n);i.onerror=()=>tryLoad(n,k+1).then(r);i.src=D[k]+n});
+Promise.all(PH.map(s=>tryLoad(s.replace('photos/','')))).then(a=>{ok=a.filter(Boolean);build();chal()});
+function build(){const n=ok.length;if(!n){$('#gempty').hidden=0;$('#gp').hidden=$('#gn').hidden=1;return}
+ ST=360/n;$('#ring').innerHTML=ok.map((s,i)=>`<button class="fr" style="transform:rotateY(${i*ST}deg) translateZ(${n>1?Math.max(150,Math.round(110/Math.tan(Math.PI/n))+50):0}px)" data-i="${i}" aria-label="Open photo ${i+1}"><img src="${s}" alt="Family photo ${i+1}" loading="lazy"></button>`).join('');
+ $$('.fr').forEach(b=>b.onclick=()=>openLB(+b.dataset.i));spin()}
+function spin(){$('#ring').style.transform=`var(--t,rotateX(0deg)) rotateY(${-gi*ST}deg)`}
+const step=d=>{gi=(gi+d+ok.length)%ok.length;spin()};
+$('#gp').onclick=()=>step(-1);$('#gn').onclick=()=>step(1);
+let sx=0;$('.scene').addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});$('.scene').addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>40)step(d<0?1:-1)});
+function openLB(i){gi=i;spin();$('#lbi').src=ok[i];$('#lbi').alt='Family photo '+(i+1);$('#lb').hidden=0;$('#lc').focus()}
+const lstep=d=>openLB((gi+d+ok.length)%ok.length);
+$('#lc').onclick=()=>$('#lb').hidden=1;$('#lp').onclick=()=>lstep(-1);$('#ln').onclick=()=>lstep(1);
+$('#lb').addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});$('#lb').addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)lstep(d<0?1:-1)});
+addEventListener('keydown',e=>{if($('#lb').hidden)return;if(e.key=='Escape')$('#lb').hidden=1;if(e.key=='ArrowLeft')lstep(-1);if(e.key=='ArrowRight')lstep(1)});
+$('#lb').addEventListener('click',e=>{if(e.target.id=='lb')$('#lb').hidden=1});
+
+/* ---- Cousins Chaos Challenge (needs 4+ real photos) ---- */
+let cs=0;
+function chal(){const m=$('#chm');if(ok.length<4){m.innerHTML=`<p>🔒 Locked: add at least 4 real family photos to the <code>photos/</code> folder and list them in <code>PH</code> to unlock this game. (${ok.length} found.)</p>`;return}
+ const t=ok[Math.random()*ok.length|0],o=[t,...ok.filter(x=>x!=t).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
+ m.innerHTML=`<p>Score: <b>${cs}</b> — which photo is this zoomed-in piece from?</p><div id="zm" style="background-image:url(${t});background-size:320%;background-position:${20+Math.random()*60}% ${20+Math.random()*60}%"></div><div class="chal">${o.map(x=>`<button data-p="${x}" style="background-image:url(${x})" aria-label="Photo option"></button>`).join('')}</div><p id="fb"></p>`;
+ $$('.chal button').forEach(b=>b.onclick=()=>{if(b.dataset.p==t){cs+=10;sfx.win();burst(60,innerWidth/2,innerHeight/2);chal()}else{sfx.pop();$('#fb').textContent='Oops! Chaos wins that round — try another.'}})}
+</script></body></html>
